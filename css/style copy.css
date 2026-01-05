@@ -1,0 +1,224 @@
+body {
+  background-color: rgb(246, 255, 248)
+}
+
+
+/* Håller allt på en rad */
+#toolbar-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#toolbar-row table {
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+
+/* Bildknappar */
+.tool-cell {
+  text-align: center;     /* horisontell centrering */
+  vertical-align: middle; /* vertikal centrering */
+  padding: 1px;
+}
+
+
+.tool-cell img {
+  height: 38px;
+  cursor: pointer;
+}
+
+/* Textknappar längst åt höger */
+
+#text-toolbar {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Textknappar */
+.tool-btn {
+  height: 32px;
+  min-width: 40px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font: 14px Arial, sans-serif;
+  border: 1px solid #888;
+  background-color: rgb(164, 195, 178);
+  cursor: pointer;
+}
+
+
+.tool-btn:hover { background: rgb(193, 215, 203); }
+.tool-btn:active { background: rgb(180, 207, 192); transform: translateY(1px); }
+
+/* Gamla td-knappar: visuellt hover/active när JS lägger klasser */
+td.tool-hover {
+  outline: 2px solid rgba(0,0,0,0.25);
+  outline-offset: -2px;
+}
+
+td.tool-active {
+  transform: translateY(1px);
+}
+
+/* Befintlig container */
+
+
+
+/* Ikon-knapp */
+.tool-icon-btn {
+  min-width: 32px;
+  width: 32px;
+  padding: 0;
+}
+
+/* setting-iconen */
+.tool-icon-btn img {
+  width: 18px;
+  height: 18px;
+  pointer-events: none; /* klick går till knappen */
+}
+
+
+/* Rad under bildknapparna */
+.under-toolbar {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%; 
+  max-width: 480px;
+}
+
+/* Sökruta */
+.search-input {
+  width: 400px;
+  height: 32px;
+  padding: 0 10px;
+  font: 14px Arial, sans-serif;
+  border: 1px solid #888;
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* Toggle-knappen håller sin storlek */
+.view-toggle {
+  min-width: 60px;
+  height: 32px;
+}
+
+/* ====== VYVÄXLING: visa bara en vy i taget ====== */
+#resultTable,
+#resultList {
+  display: none;
+  margin-top: 10px;
+}
+
+body.view-table #resultTable { display: table; }
+body.view-list  #resultList  { display: block; }
+
+/* ====== TABELL ====== */
+.table-wrap {
+  overflow-x: auto;
+  position: relative;
+  scrollbar-gutter: stable both-edges;
+}
+
+#resultTable {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+#resultTable th,
+#resultTable td {
+  border: 1px solid #888;
+  padding: 4px 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+}
+
+/* Sticky header (ta bort detta block om du inte vill ha sticky) */
+#resultTable thead th {
+  position: sticky;
+  top: 0;
+  background: #f0f0f0;
+  z-index: 2;
+}
+
+/* Hover + markerad rad */
+#resultTable tbody tr:hover {
+  background: #eef5ff;
+  cursor: pointer;
+}
+
+#resultTable tbody tr.selected {
+  background: #cfe0ff;
+}
+
+
+/* ====== LISTA ====== */
+/* Listvy som tabell */
+.list-table {
+  display: grid;
+  gap: 0;
+  border: 1px solid #888;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%; 
+  max-width: 442px;
+}
+
+/* En rad (header eller data) */
+.list-row {
+  display: grid;
+  grid-template-columns: 50px 80px 80px 70px 1fr ; /* justera efter dina list-kolumner */
+}
+
+/* Cell */
+.list-cell {
+  padding: 6px 8px;
+  border-right: 1px solid #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-row .list-cell:last-child {
+  border-right: none;
+}
+
+/* Header */
+.list-header {
+  background: #f0f0f0;
+  font-weight: bold;
+  border-bottom: 1px solid #888;
+}
+
+/* Data-rader */
+.list-data:nth-child(even) {
+  background: rgba(0,0,0,0.03);
+}
+
+.list-data:hover {
+  background: #eef5ff;
+}
+
+
+/* Popup för show_tool */
+.tool-popup {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid #888;
+  background: #fff;
+  font: 14px Arial, sans-serif;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  z-index: 9999;
+}

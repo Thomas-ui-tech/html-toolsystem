@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toolbar</title>
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <script src="./js/testdata.js"></script>
+  <script src="./js/index.js" defer></script>
+</head>
+<body>
+
+  <div id="toolbar-row">
+
+    <!-- BILD-KNAPPAR (inline events fungerar eftersom funktioner finns globalt) -->
+    <table cellspacing="0" cellpadding="0">
+      <tr>
+        <td class="tool-cell" id="filter_1"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(1);"
+            onmouseout="ResetColor(1);"
+            onmousedown="ButIn(1);">
+          <img src="./img/buts/but_Arborr.png">
+        </td>
+
+        <td class="tool-cell" id="filter_2"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(2);"
+            onmouseout="ResetColor(2);"
+            onmousedown="ButIn(2);">
+          <img src="./img/buts/but_Borr.png">
+        </td>
+
+        <td class="tool-cell" id="filter_3"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(3);"
+            onmouseout="ResetColor(3);"
+            onmousedown="ButIn(3);">
+          <img src="./img/buts/but_Brotsch.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_4"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(4);"
+            onmouseout="ResetColor(4);"
+            onmousedown="ButIn(4);">
+          <img src="./img/buts/but_CBorr.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_5"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(5);"
+            onmouseout="ResetColor(5);"
+            onmousedown="ButIn(5);">
+          <img src="./img/buts/but_Fas.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_6"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(6);"
+            onmouseout="ResetColor(6);"
+            onmousedown="ButIn(6);">
+          <img src="./img/buts/but_Form.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_7"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(7);"
+            onmouseout="ResetColor(7);"
+            onmousedown="ButIn(7);">
+          <img src="./img/buts/but_gangFr.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_8"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(8);"
+            onmouseout="ResetColor(8);"
+            onmousedown="ButIn(8);">
+          <img src="./img/buts/but_HRadie.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_9"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(9);"
+            onmouseout="ResetColor(9);"
+            onmousedown="ButIn(9);">
+          <img src="./img/buts/but_radP.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_10"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(10);"
+            onmouseout="ResetColor(10);"
+            onmousedown="ButIn(10);">
+          <img src="./img/buts/but_finP.png">
+        </td>
+        
+        <td class="tool-cell" id="filter_11"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(11);"
+            onmouseout="ResetColor(11);"
+            onmousedown="ButIn(11);">
+          <img src="./img/buts/but_sparF.png" >
+        </td>
+        
+        <td class="tool-cell" id="filter_12"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(12);"
+            onmouseout="ResetColor(12);"
+            onmousedown="ButIn(12);">
+          <img src="./img/buts/but_Tapp.png">
+        </td>
+
+        <td class="tool-cell" id="filter_13"
+            onmouseup="show_tool(this)"
+            onmouseover="SetColor(13);"
+            onmouseout="ResetColor(13);"
+            onmousedown="ButIn(13);">
+          <img src="./img/buts/but_Alla.png">
+        </td>
+      </tr>
+    </table>
+
+    <!-- TEXTKNAPPAR (samma rad, längst höger) -->
+    <div id="text-toolbar" aria-label="Textverktyg">
+      <!-- <button class="tool-btn filter-btn" id="filter_21" type="button">Redigera</button>
+      <button class="tool-btn filter-btn" id="filter_22" type="button">Nytt</button>
+      <button class="tool-btn filter-btn" id="filter_23" type="button">Spara</button> 
+      <button class="tool-btn filter-btn" id="filter_0" type="button">Arkivera</button> -->
+      <button class="tool-btn filter-btn" id="filter_normal" type="button">Alla</button>
+      <button class="tool-btn filter-btn" id="filter_archive" type="button">Arkiv</button>
+
+
+
+       <!-- SETTINGS -->
+  <button class="tool-btn tool-icon-btn"
+          id="settings-btn"
+          type="button"
+          aria-label="Inställningar">
+    <img src="./img/buts/settings.svg"  >
+  </button>
+    </div>
+   
+  </div>
+
+  <!-- Dina bildknappar (som du redan har) -->
+<table cellspacing="0" cellpadding="0">
+  <tr>
+    <!-- ... dina <td class="tool-cell" id="Post_1" ...> ... -->
+  </tr>
+</table>
+
+<!-- NY RAD under bildknapparna **************************************** -->
+
+
+<div class="under-toolbar">
+  <input id="searchInput" class="search-input" type="search" placeholder="Sök..." autocomplete="off">
+  <button id="viewToggleBtn" class="tool-btn view-toggle" type="button">Kompakt</button>
+</div>
+
+<!-- <div id="resultGrid"></div> -->
+
+<div id="resultArea">
+  <div id="resultGrid"></div>
+</div>
+
+
+
+  <!-- Liten popup som show_tool använder -->
+  <div id="tool-popup" class="tool-popup" hidden></div>
+
+</body>
+</html>

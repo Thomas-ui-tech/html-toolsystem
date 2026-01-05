@@ -1,0 +1,239 @@
+:root {
+--base-color:rgb(246, 255, 248);
+--button-color:rgb(164, 195, 178);
+--button-hover:rgb(193, 215, 203);
+--button-active:rgb(180, 207, 192);
+--border-color:#888;
+--input-color:#fff;
+
+}
+
+
+
+
+body {
+  background-color: var(--base-color);
+}
+
+
+/* Håller allt på en rad */
+#toolbar-row {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#toolbar-row table {
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+
+/* Bildknappar */
+.tool-cell {
+  text-align: center;     /* horisontell centrering */
+  vertical-align: middle; /* vertikal centrering */
+  padding: 1px;
+}
+
+.tool-cell img {
+  height: 38px;
+  cursor: pointer;
+  background-color: var(--button-color);
+  border-radius: 6px;
+}
+
+/* Visuellt hover/active när JS lägger klasser */
+
+td.tool-hover img {
+  background-color: var(--button-hover);
+}
+
+td.tool-active img {
+  transform: translateY(1px);
+  background-color: var(--button-active);
+}
+
+/* Textknappar längst åt höger */
+
+#text-toolbar {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* Textknappar */
+.tool-btn {
+  height: 32px;
+  min-width: 40px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font: 14px Arial, sans-serif;
+  border: 1px solid var(--border-color);
+  background-color: var(--button-color);
+  cursor: pointer;
+}
+
+
+.tool-btn:hover { 
+  background: var(--button-hover); 
+}
+
+.tool-btn:active { 
+  background: var(--button-active); 
+  transform: translateY(1px); 
+}
+
+
+/* Befintlig container */
+
+
+
+/* Ikon-knapp */
+.tool-icon-btn {
+  min-width: 32px;
+  width: 32px;
+  padding: 0;
+}
+
+/* setting-iconen */
+.tool-icon-btn img {
+  width: 18px;
+  height: 18px;
+  pointer-events: none; /* klick går till knappen */
+}
+
+
+/* Rad under bildknapparna */
+.under-toolbar {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%; 
+  max-width: 480px;
+}
+
+/* Sökruta */
+.search-input {
+  width: 400px;
+  height: 32px;
+  padding: 0 10px;
+  font: 14px Arial, sans-serif;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--input-color);
+}
+
+/* Toggle-knappen håller sin storlek */
+.view-toggle {
+  min-width: 78px;
+  height: 32px;
+}
+
+/* ====== VYVÄXLING: visa bara en vy i taget ====== */
+
+#resultArea {
+  max-height: calc(100vh - 140px); /* justera efter din toolbar-höjd */
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+
+
+/* visaresultat */
+#resultGrid {
+  margin-top: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 14px;
+  width: max-content;
+  max-width: 100%; 
+}
+
+/* rad (header + data) */
+.grid-row {
+  display: grid;
+}
+
+/* cell */
+.grid-cell {
+  padding: 6px 8px;
+  border-right: 1px solid var(--border-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid-cell:last-child { border-right: none; }
+
+/* header */
+.grid-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--button-active);
+  font-weight: bold;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.grid.data {
+  position: static;
+}
+
+/* zebra + hover */
+.grid-data:nth-child(even) { background: rgba(0,0,0,0.03); }
+
+.grid-data:hover { background: var(--button-hover); cursor: pointer; }
+
+/* Kolumnlayout per vy (viktigt!) */
+body.view-compact #resultGrid .grid-row {
+  grid-template-columns: 55px 80px 75px 130px 60px 80px; /* 5 kolumner */
+}
+
+body.view-wide #resultGrid .grid-row {
+  grid-template-columns: 55px 80px 75px 130PX 60px 80px 60px 120px 1fr; /* 8 kolumner (exempel) */
+}
+
+/* Horisontell scroll om wide blir för bred */
+body.view-wide #resultGrid {
+  overflow-x: auto;
+}
+body.view-wide #resultGrid .grid-row {
+  min-width: 800px; /* justera vid behov */
+}
+
+.grid-header-cell {
+  user-select: none;
+}
+
+.grid-header-cell:hover {
+  background: var(--button-hover);
+}
+
+
+
+
+
+
+
+/* ******************************
+
+
+/* Popup för show_tool */
+.tool-popup {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  background: var(--input-color);
+  font: 14px Arial, sans-serif;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  border-radius: 6px;
+  z-index: 9999;
+}
