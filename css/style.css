@@ -5,18 +5,17 @@
 --button-active:rgb(180, 207, 192);
 --border-color:#888;
 --input-color:#fff;
-
 }
 
 
 
 
 body {
-  background-color: var(--base-color);
+  background-color: var(--b-color);
+  max-width: 1288px;
 }
 
 
-/* Håller allt på en rad */
 #toolbar-row {
   position: sticky;
   top: 0;
@@ -33,8 +32,8 @@ body {
 
 /* Bildknappar */
 .tool-cell {
-  text-align: center;     /* horisontell centrering */
-  vertical-align: middle; /* vertikal centrering */
+  text-align: center;     
+  vertical-align: middle; 
   padding: 1px;
 }
 
@@ -44,8 +43,6 @@ body {
   background-color: var(--button-color);
   border-radius: 6px;
 }
-
-/* Visuellt hover/active när JS lägger klasser */
 
 td.tool-hover img {
   background-color: var(--button-hover);
@@ -57,10 +54,11 @@ td.tool-active img {
 }
 
 /* Textknappar längst åt höger */
-
 #text-toolbar {
-  margin-left: auto;
+  /*width: 594px;*/
+ margin-left: auto;
   display: flex;
+
   align-items: center;
   gap: 2px;
 }
@@ -77,7 +75,6 @@ td.tool-active img {
   cursor: pointer;
 }
 
-
 .tool-btn:hover { 
   background: var(--button-hover); 
 }
@@ -86,11 +83,6 @@ td.tool-active img {
   background: var(--button-active); 
   transform: translateY(1px); 
 }
-
-
-/* Befintlig container */
-
-
 
 /* Ikon-knapp */
 .tool-icon-btn {
@@ -105,7 +97,6 @@ td.tool-active img {
   height: 18px;
   pointer-events: none; /* klick går till knappen */
 }
-
 
 /* Rad under bildknapparna */
 .under-toolbar {
@@ -137,7 +128,7 @@ td.tool-active img {
 /* ====== VYVÄXLING: visa bara en vy i taget ====== */
 
 #resultArea {
-  max-height: calc(100vh - 140px); /* justera efter din toolbar-höjd */
+  max-height: calc(100vh - 140px);
   overflow-y: auto;
   overflow-x: auto;
 }
@@ -196,7 +187,7 @@ body.view-compact #resultGrid .grid-row {
 }
 
 body.view-wide #resultGrid .grid-row {
-  grid-template-columns: 55px 80px 75px 130PX 60px 80px 60px 120px 1fr; /* 8 kolumner (exempel) */
+  grid-template-columns: 55px 80px 75px 130PX 60px 80px 130px 120px 1fr; /* 8 kolumner (exempel) */
 }
 
 /* Horisontell scroll om wide blir för bred */
@@ -216,12 +207,386 @@ body.view-wide #resultGrid .grid-row {
 }
 
 
+/* Layout: lista vänster, formulär höger */
+#appLayout{
+  display: grid;
+  grid-template-columns: auto 460px;
+  gap: 12px;
+  height: calc(100vh - 0px);
+  width: max-content; /* Anpassar bredd utifrån bredden i tabellen */
+  max-width: 1400px;
+}
+
+#resultArea {
+  overflow: auto;
+  max-width: 100%;
+}
+
+
+#leftPane{ 
+  min-width: 0; 
+}
+
+#rightPane{   /* Storlek formulär */
+  margin-top: 10px;
+  width: 795px;  
+  min-width: 0;
+  height: 750px;
+}
+
+/* Scrollar bara listan (du har redan liknande) */
+#resultArea{
+  height: 100%;
+  overflow: auto;
+  min-height: 0;
+  /*
+  border: 1px solid var(--border-color);*/
+  border-radius: 8px;
+  background: var(--input-color);
+}
+
+/* Panel Formulär (höger) */
+
+
+
+.panel{
+  height: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--input-color);
+  padding: 12px;
+  overflow: auto;
+}
+
+.panel-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.panel-head-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.form-id {
+  font: 20px sans-serif;
+  font-weight: bold;
+  color: #555;
+}
+
+
+
+
+.panel-title{
+  margin: 0;
+  font: 18px Arial, sans-serif;
+}
+
+.panel-actions{ display: flex; gap: 8px;}
+
+.btn{
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font: 14px Arial, sans-serif;
+  cursor: pointer;
+}
+
+.btn-primary{ background: var(--button-color); }
+.btn-primary:hover{ background: var(--button-hover); }
+.btn-secondary{ background: #f3f3f3; }
+.btn-secondary:hover{ background: #e9e9e9; }
+
+/* Småfält */
+/*.mini-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+*/
+
+
+/* Form wrapper */
+.tool-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Header */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* TVÅ KOLUMNER */
+.form-layout {
+  display: grid;
+  grid-template-columns: 1fr 382px; /* inputs | bild */
+  gap: 16px;
+  align-items: start;
+}
+
+/* VÄNSTER: inputs */
 
 
 
 
 
-/* ******************************
+
+.tool_img {
+  width: 216px;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  border: 1px solid #888;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.field2 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: px;
+}
+
+.field label {
+  font: 12px Arial, sans-serif;
+}
+
+.field input {
+  height: 30px;
+  width: 200px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #888;
+}
+
+/*Checkboxer 
+.field.checkbox {
+  grid-column: span 2;
+} */
+
+.field.checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* HÖGER: bild */
+.form-image {
+  border: 10px solid #bbb;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
+}
+
+.form-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+
+.label{ 
+  font: 12px Arial, sans-serif; 
+  color: #333; 
+}
+
+.input{
+  height: 32px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 10px;
+  font: 14px Arial, sans-serif;
+  background: var(--input-color);
+}
+
+.field-coment{ 
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: -120px;
+}
+
+
+
+
+.input-coment{
+  height: 140px;
+  width: 480px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 10px;
+  font: 14px Arial, sans-serif;
+  background: var(--input-color);
+}
+
+.check{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 14px Arial, sans-serif;
+}
+
+.computed-field {
+  height: 30px;
+  width: 200px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background: #f4f4f4;
+  font: 14px Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+
+
+/* Ritning + overlay */
+.drawing{ }
+
+
+.drawing-canvas{
+  position: relative;
+  border: 1px solid #c0c0c0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--input-color);
+  width: 500px;
+  height: 450px;
+  right: 120px;
+  margin-bottom: 6px;
+}
+
+.drawing-img{
+  display: block;
+  width: 350px;
+  height: auto;
+  position: relative;
+  left: 80px;
+  bottom: 10px;
+}
+
+/* Overlay-field placeras med procent (skalar med bilden) */
+.overlay{
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.overlay-tag{
+  font: 14px Arial, sans-serif;
+  background: rgba(255,255,255,0.85);
+  /*border: 1px solid rgba(0,0,0,0.35);*/
+  border-radius: 6px;
+  padding: 2px 6px;
+  align-self: flex-start;
+}
+
+.overlay-input{
+  height: 25px;
+  width: 55px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 0 8px;
+  font: 13px Arial, sans-serif;
+  background: rgba(255,255,255,0.92);
+}
+
+.more summary{
+  cursor: pointer;
+  font: 14px Arial, sans-serif;
+  margin: 10px 0;
+}
+
+
+.form-fields-right {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(1fr, 1fr));
+  gap: 10px 12px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: -120px;
+
+}
+
+/* gör så att fält kan spänna över båda kolumnerna */
+.field-span-2 {
+  grid-column: span 2;
+}
+
+/* textarea-stil */
+.textarea {
+  height: auto;
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* checkboxar bredvid varandra under kommentaren */
+.check-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+
+/* Mobil */
+@media (max-width: 900px) {
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+/* Mobil: stapla */
+/*@media (max-width: 1020px){
+  #appLayout{ grid-template-columns: 1fr; height: auto; }
+  #resultArea{ height: auto; max-height: 55vh; }
+}
+
+.grid-data.is-selected {
+  background: var(--button-hover);
+}*/
+
+
+
+
+/* *********** kod för testning *******************
 
 
 /* Popup för show_tool */
