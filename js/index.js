@@ -16,6 +16,10 @@ var mode = "normal";
 // Aktivt filter från knappar (null = inget filter)
 var activeFilter = null;
 
+var selectedId = null; // id på vald post
+
+var draftTool = null;    // NY post (utkast), ej sparad
+
 // Sortering
 var sortState = {
   key: null,
@@ -104,6 +108,187 @@ function setMode(newMode) {
   renderApp();
 }
 
+function toNumberOrNull(v) {
+  var s = String(v == null ? "" : v).trim();
+  if (s === "") return null;
+  var n = Number(s);
+  return isNaN(n) ? null : n;
+}
+
+function readFormToObject(form) {
+  var obj = {};
+
+  // Alla inputs/textarea/select som har name=""
+  var fields = form.querySelectorAll("input[name], textarea[name], select[name]");
+  for (var i = 0; i < fields.length; i++) {
+    var el = fields[i];
+    var key = el.name;
+
+    if (el.type === "checkbox") {
+      obj[key] = !!el.checked;
+    } else if (el.type === "number") {
+      obj[key] = toNumberOrNull(el.value);
+    } else {
+      obj[key] = el.value;
+    }
+  }
+
+  return obj;
+}
+
+function clearForm() {
+  var form = document.getElementById("toolForm");
+  if (!form) return;
+
+  // återställ input/textarea/select
+  form.reset();
+
+  // om du har inputs som inte ingår i reset (t.ex. custom), rensa dem också:
+  var els = form.querySelectorAll("input[name], textarea[name], select[name]");
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    if (el.type === "checkbox") el.checked = false;
+    else el.value = "";
+  }
+}
+
+function setFormIdDisplay(value) {
+  var el = document.getElementById("formId");
+  if (!el) return;
+
+  if (value == null) el.textContent = "–";
+  else if (value === "new") el.textContent = "(ny)";
+  else el.textContent = String(value);
+}
+
+
+function computeMarking(row) {
+  return [row.toolM, row.nomDiaM, row.idCode].filter(Boolean).join(" ");
+}
+
+function updateMarkingDisplay(row) {
+  var el = document.getElementById("markingDisplay");
+  if (!el) return;
+  el.textContent = computeMarking(row) || "–";
+}
+
+
+// Skapa ett nytt verktyg
+function createDraftTool() {
+  return {
+    // id sätts först vid spar
+    toolType: "",
+    toolM: "",
+    nomDiaM: "",
+    idCode: "",
+    nomDia: null,
+    actDia: null,
+    cutDeep: null,
+    length: null,
+    freeLength: null,
+    angle: null,
+    shaftDia: null,
+    threadOffset: null,
+    radius: null,
+    numTeeth: null,
+    holderId: "",
+    heavyTool: false,
+    ident: "",
+    artNo: "",
+    supplier: "",
+    comment: "",
+    archives: false
+  };
+}
+
+function getNextId(data) {
+  var maxId = 0;
+  for (var i = 0; i < data.length; i++) {
+    var v = Number(data[i].id);
+    if (!isNaN(v) && v > maxId) maxId = v;
+  }
+  return maxId + 1;
+}
+
+function saveFromForm() {
+  var form = document.getElementById("toolForm");
+  if (!form) return false;
+
+  var patch = readFormToObject(form);
+
+  // 1) SPARA UTKAST (NY POST)
+  if (draftTool) {
+    var newId = getNextId(testData);
+
+    // slå ihop defaults + formdata + id
+    var newRow = Object.assign({}, draftTool, patch, { id: newId });
+
+    testData.push(newRow);
+
+    // välj den nya posten
+    selectedId = newId;
+    draftTool = null;
+
+    renderApp();
+    fillFormFromRow(newRow);
+    setFormIdDisplay(newId);
+    updateToolImage(row.toolId);
+    return true;
+  }
+
+  // 2) UPPDATERA BEFINTLIG
+  if (selectedId == null) return false;
+
+  var idx = -1;
+  for (var i = 0; i < testData.length; i++) {
+    if (testData[i].id === selectedId) { idx = i; break; }
+  }
+  if (idx === -1) return false;
+
+  patch.id = testData[idx].id; // skydda id
+  testData[idx] = Object.assign({}, testData[idx], patch);
+
+  renderApp();
+  return true;
+}
+
+function startNewDraft() {
+  draftTool = createDraftTool();
+  selectedId = null; // du redigerar inte en befintlig post
+
+  // Töm och fyll formuläret med utkastet (så allt blir blankt + checkboxar rätt)
+  clearForm();
+  fillFormFromRow(draftTool);
+  setFormIdDisplay("new"); 
+  // valfritt: visa popup/status
+  // showPopup("Nytt utkast (ej sparat)");
+  updateToolImage(null); // ingen bild för nytt
+}
+
+function getSelectedRow() {
+  if (selectedId == null) return null;
+  return testData.find(function (r) { return r.id === selectedId; });
+}
+
+function updateToolImage(toolId) {
+  var img = document.getElementById("toolDrawing");
+  if (!img) return;
+
+  if (!toolId) {
+    img.src = "./img/tools/placeholder.png";
+    return;
+  }
+
+  img.src = "./img/tools/" + toolId + ".png";
+
+  // fallback om bilden saknas
+  img.onerror = function () {
+    img.onerror = null; // undvik loop
+    img.src = "./img/tools/placeholder.png";
+  };
+}
+
+
 
 /* =========================================================
    2) KOLUMNSCHEMAN (VYER)
@@ -118,7 +303,7 @@ var columnsCompact = [
     label: "Märkning",
     // OBS: saknar key => sortering på denna rubrik blir "ingen nyckel"
     value: function (row) {
-      return [row.toolM, row.nomDiaM, row.idCode].filter(Boolean).join(" ");
+      return computeMarking(row);
     }
   },
   { key: "length", label: "Utstick" },
@@ -138,7 +323,7 @@ var columnsWide = [
   },
   { key: "length", label: "Utstick" },
   { key: "holderId", label: "Hållare" },
-  { key: "actDia", label: "Akt. Ø" },
+  { key: "artNo", label: "Art.nr" },
   { key: "supplier", label: "Leverantör" },
   { key: "comment", label: "Kommentar" }
 ];
@@ -186,10 +371,28 @@ function renderGrid(data, cols) {
 
   wrap.appendChild(header);
 
+
   // Rows
+
+  
   data.forEach(function (row) {
     var r = document.createElement("div");
     r.className = "grid-row grid-data";
+
+  // Markera vald
+  if (row.id === selectedId) r.classList.add("is-selected");
+
+  // Klick -> välj + fyll formulär
+  r.addEventListener("click", function () {
+    selectedId = row.id;
+    draftTool = null;
+    fillFormFromRow(row);
+    setFormIdDisplay(row.id);
+    updateToolImage(row.toolId);
+
+
+    renderApp(); // så markeringen uppdateras i listan
+  });
 
     cols.forEach(function (col) {
       var cell = document.createElement("div");
@@ -201,6 +404,7 @@ function renderGrid(data, cols) {
     wrap.appendChild(r);
   });
 }
+
 
 function renderApp() {
   // 1) sök
@@ -222,6 +426,45 @@ function renderApp() {
   // 6) render
   var cols = (view === "compact") ? columnsCompact : columnsWide;
   renderGrid(data, cols);
+
+// Auto-välj första om ingen vald eller om vald inte finns i filtrerat resultat
+  if (data.length) {
+    var stillThere = selectedId != null && data.some(function (r) { return r.id === selectedId; });
+    if (!stillThere) {
+      selectedId = data[0].id;
+      fillFormFromRow(data[0]);
+      // renderGrid igen behövs inte om du inte kräver markering direkt
+      // men om du vill se markeringen direkt, kör renderApp() en gång till (inte rekommenderat).
+    }
+  }
+
+
+}
+
+// Uppdatera vald post
+
+function updateSelectedRowFromForm() {    
+  if (selectedId == null) return false;
+
+  var form = document.getElementById("toolForm");
+  if (!form) return false;
+
+  var patch = readFormToObject(form);
+
+  // Hitta posten
+  var idx = -1;
+  for (var i = 0; i < testData.length; i++) {
+    if (testData[i].id === selectedId) { idx = i; break; }
+  }
+  if (idx === -1) return false;
+
+  // Skydda id: låt inte formuläret byta id av misstag
+  patch.id = testData[idx].id;
+
+  // Merge (uppdatera bara fält som finns i formens inputs)
+  testData[idx] = Object.assign({}, testData[idx], patch);
+
+  return true;
 }
 
 
@@ -353,6 +596,53 @@ function renderApp() {
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
+
+  var saveBtn = document.getElementById("btnSave");
+  if (saveBtn) {
+    saveBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      var ok = saveFromForm();
+      if (!ok) alert("Välj en post eller klicka Nytt först.");
+    });
+  }
+
+
+  var newBtn = document.getElementById("btnNew"); 
+  if (newBtn) {
+    newBtn.addEventListener("click", function () {
+      startNewDraft();
+    });
+  }
+
+["toolM", "nomDiaM", "idCode"].forEach(function (name) {
+  var input = document.querySelector('[name="' + name + '"]');
+  if (!input) return;
+
+  input.addEventListener("input", function () {
+    var row = draftTool || getSelectedRow();
+    if (!row) return;
+
+    row[name] = input.value;
+    updateMarkingDisplay(row);
+  });
+});
+
+
+var form = document.getElementById("toolForm");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var ok = updateSelectedRowFromForm();
+      if (!ok) {
+        alert("Välj en post i listan först.");
+        return;
+      }
+
+      renderApp(); // uppdatera listan med nya data
+    });
+  }
+
   var searchInput = document.getElementById("searchInput");
   var toggleBtn = document.getElementById("viewToggleBtn");
 
@@ -385,3 +675,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   renderApp();
 });
+
+/* Hantering formulär */
+
+
+function fillFormFromRow(row) {
+  var form = document.getElementById("toolForm");
+  if (!form || !row) return;
+
+  // Fyll alla inputs/textarea/select som har name=nyckel
+  Object.keys(row).forEach(function (key) {
+    var el = form.querySelector('[name="' + key + '"]');
+    if (!el) return;
+
+    if (el.type === "checkbox") {
+      el.checked = !!row[key];
+    } else {
+      el.value = (row[key] === undefined || row[key] === null) ? "" : row[key];
+    }
+  });
+  updateMarkingDisplay(row);
+}
+
