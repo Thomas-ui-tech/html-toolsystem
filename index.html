@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="sv">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,7 +9,9 @@
   <link rel="stylesheet" href="./css/style.css" />
   <script src="./js/testdata.js"></script>
   <script src="./js/index.js" defer></script>
+
 </head>
+
 <body>
 
   <div id="toolbar-row">
@@ -16,107 +19,68 @@
     <!-- BILD-KNAPPAR (inline events fungerar eftersom funktioner finns globalt) -->
     <table cellspacing="0" cellpadding="0">
       <tr>
-        <td class="tool-cell" id="filter_1"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(1);"
-            onmouseout="ResetColor(1);"
-            onmousedown="ButIn(1);">
+        <td class="tool-cell" id="filter_1" onmouseup="show_tool(this)" onmouseover="SetColor(1);"
+          onmouseout="ResetColor(1);" onmousedown="ButIn(1);">
           <img src="./img/buts/but_Arborr.png">
         </td>
 
-        <td class="tool-cell" id="filter_2"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(2);"
-            onmouseout="ResetColor(2);"
-            onmousedown="ButIn(2);">
+        <td class="tool-cell" id="filter_2" onmouseup="show_tool(this)" onmouseover="SetColor(2);"
+          onmouseout="ResetColor(2);" onmousedown="ButIn(2);">
           <img src="./img/buts/but_Borr.png">
         </td>
 
-        <td class="tool-cell" id="filter_3"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(3);"
-            onmouseout="ResetColor(3);"
-            onmousedown="ButIn(3);">
+        <td class="tool-cell" id="filter_3" onmouseup="show_tool(this)" onmouseover="SetColor(3);"
+          onmouseout="ResetColor(3);" onmousedown="ButIn(3);">
           <img src="./img/buts/but_Brotsch.png">
         </td>
-        
-        <td class="tool-cell" id="filter_4"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(4);"
-            onmouseout="ResetColor(4);"
-            onmousedown="ButIn(4);">
+
+        <td class="tool-cell" id="filter_4" onmouseup="show_tool(this)" onmouseover="SetColor(4);"
+          onmouseout="ResetColor(4);" onmousedown="ButIn(4);">
           <img src="./img/buts/but_CBorr.png">
         </td>
-        
-        <td class="tool-cell" id="filter_5"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(5);"
-            onmouseout="ResetColor(5);"
-            onmousedown="ButIn(5);">
+
+        <td class="tool-cell" id="filter_5" onmouseup="show_tool(this)" onmouseover="SetColor(5);"
+          onmouseout="ResetColor(5);" onmousedown="ButIn(5);">
           <img src="./img/buts/but_Fas.png">
         </td>
-        
-        <td class="tool-cell" id="filter_6"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(6);"
-            onmouseout="ResetColor(6);"
-            onmousedown="ButIn(6);">
+
+        <td class="tool-cell" id="filter_6" onmouseup="show_tool(this)" onmouseover="SetColor(6);"
+          onmouseout="ResetColor(6);" onmousedown="ButIn(6);">
           <img src="./img/buts/but_Form.png">
         </td>
-        
-        <td class="tool-cell" id="filter_7"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(7);"
-            onmouseout="ResetColor(7);"
-            onmousedown="ButIn(7);">
+
+        <td class="tool-cell" id="filter_7" onmouseup="show_tool(this)" onmouseover="SetColor(7);"
+          onmouseout="ResetColor(7);" onmousedown="ButIn(7);">
           <img src="./img/buts/but_gangFr.png">
         </td>
-        
-        <td class="tool-cell" id="filter_8"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(8);"
-            onmouseout="ResetColor(8);"
-            onmousedown="ButIn(8);">
+
+        <td class="tool-cell" id="filter_8" onmouseup="show_tool(this)" onmouseover="SetColor(8);"
+          onmouseout="ResetColor(8);" onmousedown="ButIn(8);">
           <img src="./img/buts/but_HRadie.png">
         </td>
-        
-        <td class="tool-cell" id="filter_9"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(9);"
-            onmouseout="ResetColor(9);"
-            onmousedown="ButIn(9);">
+
+        <td class="tool-cell" id="filter_9" onmouseup="show_tool(this)" onmouseover="SetColor(9);"
+          onmouseout="ResetColor(9);" onmousedown="ButIn(9);">
           <img src="./img/buts/but_radP.png">
         </td>
-        
-        <td class="tool-cell" id="filter_10"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(10);"
-            onmouseout="ResetColor(10);"
-            onmousedown="ButIn(10);">
+
+        <td class="tool-cell" id="filter_10" onmouseup="show_tool(this)" onmouseover="SetColor(10);"
+          onmouseout="ResetColor(10);" onmousedown="ButIn(10);">
           <img src="./img/buts/but_finP.png">
         </td>
-        
-        <td class="tool-cell" id="filter_11"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(11);"
-            onmouseout="ResetColor(11);"
-            onmousedown="ButIn(11);">
-          <img src="./img/buts/but_sparF.png" >
+
+        <td class="tool-cell" id="filter_11" onmouseup="show_tool(this)" onmouseover="SetColor(11);"
+          onmouseout="ResetColor(11);" onmousedown="ButIn(11);">
+          <img src="./img/buts/but_sparF.png">
         </td>
-        
-        <td class="tool-cell" id="filter_12"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(12);"
-            onmouseout="ResetColor(12);"
-            onmousedown="ButIn(12);">
+
+        <td class="tool-cell" id="filter_12" onmouseup="show_tool(this)" onmouseover="SetColor(12);"
+          onmouseout="ResetColor(12);" onmousedown="ButIn(12);">
           <img src="./img/buts/but_Tapp.png">
         </td>
 
-        <td class="tool-cell" id="filter_13"
-            onmouseup="show_tool(this)"
-            onmouseover="SetColor(13);"
-            onmouseout="ResetColor(13);"
-            onmousedown="ButIn(13);">
+        <td class="tool-cell" id="filter_13" onmouseup="show_tool(this)" onmouseover="SetColor(13);"
+          onmouseout="ResetColor(13);" onmousedown="ButIn(13);">
           <img src="./img/buts/but_Alla.png">
         </td>
       </tr>
@@ -124,459 +88,208 @@
 
     <!-- TEXTKNAPPAR (samma rad, längst höger) -->
     <div id="text-toolbar" aria-label="Textverktyg">
-      <!-- <button class="tool-btn filter-btn" id="filter_21" type="button">Redigera</button>
-      <button class="tool-btn filter-btn" id="filter_22" type="button">Nytt</button>
-      <button class="tool-btn filter-btn" id="filter_23" type="button">Spara</button> 
-      <button class="tool-btn filter-btn" id="filter_0" type="button">Arkivera</button> -->
       <button class="tool-btn filter-btn" id="filter_normal" type="button">Alla</button>
       <button class="tool-btn filter-btn" id="filter_archive" type="button">Arkiv</button>
 
 
 
-       <!-- SETTINGS -->
-  <button class="tool-btn tool-icon-btn"
-          id="settings-btn"
-          type="button"
-          aria-label="Inställningar">
-    <img src="./img/buts/settings.svg"  >
-  </button>
+      <!-- SETTINGS -->
+      <button class="tool-btn tool-icon-btn" id="settings-btn" type="button" aria-label="Inställningar">
+        <img src="./img/buts/settings.svg">
+      </button>
     </div>
-   
+
   </div>
 
   <!-- Dina bildknappar (som du redan har) -->
-<table cellspacing="0" cellpadding="0">
-  <tr>
-    <!-- ... dina <td class="tool-cell" id="Post_1" ...> ... -->
-  </tr>
-</table>
+  <table cellspacing="0" cellpadding="0">
+    <tr>
+      <!-- ... dina <td class="tool-cell" id="Post_1" ...> ... -->
+    </tr>
+  </table>
 
-<!-- Sökrita och knapp under bildknapparna -->
-
-
-<div class="under-toolbar">
-  <input id="searchInput" class="search-input" type="search" placeholder="Sök..." autocomplete="off">
-  <button id="viewToggleBtn" class="tool-btn view-toggle" type="button">Kompakt</button>
-</div>
-
-<!-- <div id="resultGrid"></div> -->
-
-<!-- <div id="resultArea">
-  <div id="resultGrid"></div>
-</div> -->
-
-<div id="appLayout">
-  <!-- VÄNSTER: lista -->
-  <section id="leftPane" aria-label="Lista">
-    <div id="resultArea">
-      <div id="resultGrid"></div>
-    </div>
-  </section>
-
-  <!-- HÖGER: formulär -->
-  <aside id="rightPane" aria-label="Formulär">
-   
-     <form id="toolForm" class="panel" autocomplete="off">
+  <!-- Sökrita och knapp under bildknapparna -->
 
 
-
-
-
-<div class="panel-head">
-  <div class="panel-head-left">
-    <!-- <h2 class="panel-title">Verktyg</h2> -->
-    <div class="form-id">Grupp Nr <strong id="formId">–</strong></div>
+  <div class="under-toolbar">
+    <input id="searchInput" class="search-input" type="search" placeholder="Sök..." autocomplete="off">
+    <button id="viewToggleBtn" class="tool-btn view-toggle" type="button">Kompakt</button>
   </div>
 
-  <div class="panel-actions">
-    <button type="button" class="tool-btn" id="btnNew">Nytt</button>
-    <button type="button" class="btn btn-primary" id="btnSave">Spara</button>
-  </div>
-</div>
+  <!-- <div id="resultGrid"></div> -->
 
 
-
-<!--
-
-
-
-     <div class="panel-head">
-        <h2 class="panel-title">Verktyg</h2>
-        <div class="panel-actions">
-          <button type="button" class="btn btn-secondary" id="btnClear">Rensa</button>
-          <button type="button" class="tool-btn" id="btnNew">Nytt</button>
-          <button type="submit" class="btn btn-primary" id="btnSave">Spara</button>
-        </div>
+  <div id="appLayout">
+    <!-- VÄNSTER: lista -->
+    <section id="leftPane" aria-label="Lista">
+      <div id="resultArea">
+        <div id="resultGrid"></div>
       </div>
--->
-<!--
+    </section>
 
+    <!-- HÖGER: formulär -->
+    <aside id="rightPane" aria-label="Formulär">
 
+      <form id="toolForm" class="panel" autocomplete="off">
 
+        <div class="panel-head">
+          <div class="panel-head-left">
+            <!-- <h2 class="panel-title">Verktyg</h2> -->
+            <div class="form-id">
+              Grupp Nr <strong id="formId">–</strong>
+              <span id="dirtyBadge" class="dirty-badge" hidden>Osparat</span>
 
-<div class="form-header">
-  <div>
-    <h2>Verktyg</h2>
-    <div class="form-id">ID: <strong id="formId">–</strong></div>
-  </div>
+            </div>
+          </div>
 
-  <div class="form-actions">
-    <button type="button" id="btnNew" class="btn">Nytt</button>
-    <button type="button" id="btnSave" class="btn btn-primary">Spara</button>
-  </div>
-</div>
-
-
-
- 
-
--->
-
-
-  <!-- TVÅ KOLUMNER -->
-  <div class="form-layout">
-
-    <!-- VÄNSTER: INPUTS -->
-    <div class="form-fields">
-
-      <div class="field">
-       <!-- <label>Typ</label> -->
-        <input name="toolType">
-      </div>
-
-      <div class="field">
-        <label>Märkning</label>
-        <div class="computed-field" id="markingDisplay">–</div>
-      </div>
-
-      <img class="tool_img"   src="./img/tools/Arborr20.JPG" alt="Verktyg bild">
-
-
-      <div class="field">
-        <label>Märkning Ø</label>
-        <input name="nomDiaM" >
-      </div>
-
-      <div class="field">
-        <label>IdCode</label>
-        <input name="idCode" placeholder="A-Z">
-      </div>
-
-      
-      <div class="field">
-        <label>Antal tänder</label>
-        <input name="numTeeth" type="number" step="1">
-      </div>
-
-     <!-- 
-
-
-
-
-
-      <div class="field">
-        <label>Fri längd</label>
-        <input name="freeLength" type="number" step="0.01">
-      </div>
-
-      <div class="field">
-        <label>Skärdjup</label>
-        <input name="cutDeep" type="number" step="0.01">
-      </div>
-      
-      -->  
-
-        <div class="field">
-          <label>Hållare</label>
-          <input name="holderId" placeholder="Välj Hållare">
-        </div>
-
-        <label class="field">
-          <span class="label">Ident</span>
-          <input class="input" name="ident" placeholder="Text identifiera verktyget">
-        </label>
-
-
-
-
-
-
-
-        <!--
-
-          <label class="field">
-            <span class="label">Vinkel</span>
-            <input class="input" name="angle" type="number" step="0.1" placeholder="180">
-          </label>
-
-          <label class="field">
-            <span class="label">Gängoffset</span>
-            <input class="input" name="threadOffset" type="number" step="0.001" placeholder="1.337">
-          </label>
-        -->
-
-
-
-
-
-    </div>
-
-    <!-- HÖGER: BILD 
-    <div class="form-image">
-      <img src="./img/verktyg.png" alt="Verktygsbild">
--->
-
- <!-- Ritning med overlay-inputs -->
-      <div class="drawing">
-        <div class="drawing-canvas">
-
-          <img
-          id="toolDrawing"
-          class="drawing-img"
-          src="./img/tools/10.png"
-          alt="Måttbild">
-     <!-- src="./img/tools/placeholder.png" -->
-          <!-- VÄNSTER -->
-          <label class="overlay" style="--x: 3%; --y: 23%; --w: 20%;">
-            <span class="overlay-tag">Skaft</span>
-            <input class="overlay-input" name="shaftDia" type="number" step="0.01" placeholder="mm">
-          </label>
-
-          <label class="overlay" style="--x: 3%; --y: 38%; --w: 20%;">
-            <span class="overlay-tag">Nom dia</span>
-            <input class="overlay-input" name="nomDia" type="number" step="0.01" placeholder="mm">
-          </label>
-
-          <label class="overlay" style="--x: 9%; --y: 67%; --w: 20%;">
-            <span class="overlay-tag"></span>
-            <input class="overlay-input" name="radius" type="number" step="0.01" placeholder="mm">
-          </label>
-
-          <label class="overlay" style="--x: 5%; --y: 83%; --w: 20%;">
-            <span class="overlay-tag">Akt dia</span>
-            <input class="overlay-input" name="actDia" type="number" step="0.01" placeholder="mm">
-          </label>
-
-          <!-- HÖGER -->
-          <label class="overlay" style="--x: 55%; --y: 3%; --w: 20%;">
-            <span class="overlay-tag">Verktygslängd</span>
-            <input class="overlay-input" name="freeLength" type="number" step="0.01" placeholder="mm">
-          </label>
-
-          <label class="overlay" style="--x: 64%; --y: 11%; --w: 20%;">
-            <span class="overlay-tag">Utstick</span>
-            <input class="overlay-input" name="length" type="number" step="0.01" placeholder="mm">
-          </label>
-
-          <label class="overlay" style="--x: 71%; --y: 74%; --w: 18%;">
-            <span class="overlay-tag"></span>
-            <input class="overlay-input" name="cutDeep" type="number" step="0.01" placeholder="mm">
-          </label>
+          <div class="panel-actions">
+            <button type="button" class="tool-btn" id="btnNew">Nytt</button>
+            <button type="button" class="btn btn-primary" id="btnSave">Spara</button>
+          </div>
         </div>
 
 
-<div class="form-fields-right">
+        <!-- TVÅ KOLUMNER -->
+        <div class="form-layout">
 
-  <label class="field2">
-    <span class="label">Art.nr</span>
-    <input class="input" name="artNo" placeholder="Leverantörens artnummer">
-  </label>
+          <!-- VÄNSTER: INPUTS -->
+          <div class="form-fields">
 
-  <label class="field2">
-    <span class="label">Leverantör</span>
-    <input class="input" name="supplier" placeholder="Välj Leverantör">
-  </label>
+            <div class="field">
+              <!-- <label>Typ</label> -->
+              <input name="toolType">
+            </div>
 
-  <label class="field field-span-2">
-    <span class="label">Kommentar</span>
-    <textarea class="input textarea" name="comment" placeholder="Allmän info" rows="4"></textarea>
-  </label>
+            <div class="field">
+              <label>Märkning</label>
+              <div class="computed-field" id="markingDisplay">–</div>
+            </div>
 
-
-
+            <img class="tool_img" src="./img/tools/Arborr20.JPG" alt="Verktyg bild">
 
 
+            <div class="field">
+              <label>Märkning Ø</label>
+              <input name="nomDiaM">
+            </div>
 
-  <div class="field-span-2 check-row">
-
-    <button type="button" class="btn btn-primary" id="btnToolFolder">Verktygsmapp</button>
-
-    <label class="check">
-      <input type="checkbox" name="heavyTool">
-      <span>Tungt verktyg</span>
-    </label>
-
-    <label class="check">
-      <input type="checkbox" name="archives">
-      <span>Arkiverad</span>
-    </label>
+            <div class="field">
+              <label>IdCode</label>
+              <input name="idCode" placeholder="A-Z">
+            </div>
 
 
+            <div class="field">
+              <label>Antal tänder</label>
+              <input name="numTeeth" type="number" step="1">
+            </div>
+
+
+            <div class="field">
+              <label>Hållare</label>
+              <input name="holderId" placeholder="Välj Hållare">
+            </div>
+
+            <label class="field">
+              <span class="label">Ident</span>
+              <input class="input" name="ident" placeholder="Text identifiera verktyget">
+            </label>
+
+          </div>
+
+
+          <!-- HÖGER: BILD -->
+
+          <!-- Ritning med overlay-inputs -->
+          <div class="drawing">
+            <div class="drawing-canvas">
+
+              <img id="toolDrawing" class="drawing-img" src="./img/tools/10.png" alt="Måttbild">
+              <!-- src="./img/tools/placeholder.png" -->
+              <!-- VÄNSTER -->
+              <label class="overlay" style="--x: 3%; --y: 23%; --w: 20%;">
+                <span class="overlay-tag">Skaft</span>
+                <input class="overlay-input" name="shaftDia" type="number" step="0.01" placeholder="mm">
+              </label>
+
+              <label class="overlay" style="--x: 3%; --y: 38%; --w: 20%;">
+                <span class="overlay-tag">Nom dia</span>
+                <input class="overlay-input" name="nomDia" type="number" step="0.01" placeholder="mm">
+              </label>
+
+              <label id="radiusField" class="overlay" style="--x: 9%; --y: 67%; --w: 20%;">
+                <span class="overlay-tag"></span>
+                <input id="radiusInput" class="overlay-input" name="radius" type="number" step="0.01" placeholder="mm">
+              </label>
+
+              <label class="overlay" style="--x: 5%; --y: 83%; --w: 20%;">
+                <span id="actDiaField" class="overlay-tag">Akt dia</span>
+                <input class="overlay-input" name="actDia" type="number" step="0.01" placeholder="mm">
+              </label>
+
+              <!-- HÖGER -->
+              <label class="overlay" style="--x: 55%; --y: 3%; --w: 20%;">
+                <span class="overlay-tag">Verktygslängd</span>
+                <input class="overlay-input" name="freeLength" type="number" step="0.01" placeholder="mm">
+              </label>
+
+              <label class="overlay" style="--x: 64%; --y: 11%; --w: 20%;">
+                <span class="overlay-tag">Utstick</span>
+                <input class="overlay-input" name="length" type="number" step="0.01" placeholder="mm">
+              </label>
+
+              <label class="overlay" style="--x: 71%; --y: 74%; --w: 18%;">
+                <span class="overlay-tag"></span>
+                <input class="overlay-input" name="cutDeep" type="number" step="0.01" placeholder="mm">
+              </label>
+            </div>
 
 
 
-  </div>
+            <div class="form-fields-right">
 
-</div>
+              <label class="field2">
+                <span class="label">Art.nr</span>
+                <input class="input" name="artNo" placeholder="Leverantörens artnummer">
+              </label>
 
+              <label class="field2">
+                <span class="label">Leverantör</span>
+                <input class="input" name="supplier" placeholder="Välj Leverantör">
+              </label>
 
-<!--
+              <label class="field field-span-2">
+                <span class="label">Kommentar</span>
+                <textarea class="input textarea" name="comment" placeholder="Allmän info" rows="4"></textarea>
+              </label>
 
+              <div class="field-span-2 check-row">
 
+                <button type="button" class="btn btn-primary" id="btnToolFolder">Verktygsmapp</button>
 
+                <label class="check">
+                  <input type="checkbox" name="heavyTool">
+                  <span>Tungt verktyg</span>
+                </label>
 
-
-        <label class="field">
-          <span class="label">Art.nr</span>
-          <input class="input" name="artNo" placeholder="Leverantörens artnummer">
-        </label>
-
-        <div class="field">
-          <label>Leverantör</label>
-          <input name="supplier" placeholder="Välj Leverantör">
+                <label class="check">
+                  <input type="checkbox" name="archives">
+                  <span>Arkiverad</span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <label class="field-coment">
-          <span class="label">Kommentar</span>
-          <input class="input-coment" name="comment" placeholder="Allmän info">
-        </label>
-
-        
-      <div class="field checkbox">
-        <label>
-          <input type="checkbox" name="heavyTool">
-          Tungt verktyg
-        </label>
-      </div>
-
-      <div class="field checkbox">
-        <label>
-          <input type="checkbox" name="archives">
-          Arkiverad
-        </label>
-      </div>
+      </form>
 
 
-      </div>
 
--->
 
-    </div>
 
+      </form>
+    </aside>
   </div>
-</form>
-
-
-
-
-      
-
-     
-
-
-
-      <!-- Grundfält (från din tabell) 
-      <div class="mini-grid">-->
-
-        <!-- 
-        <label class="field">
-          <span class="label">ID</span>
-          <input class="input" name="id" type="number" min="1" step="1" placeholder="1">
-        </label>
-        -->
-        
-        <!-- 
-        <label class="field">
-          <span class="label">Typ</span>
-          <input class="input" name="toolType" placeholder="Verktyg">
-        </label>
-
-
-        <label class="field">
-          <span class="label">Verktyg (M)</span>
-          <input class="input" name="toolM" placeholder="ARBORR">
-        </label>
-
-        <label class="field">
-          <span class="label">Nom Ø (M)</span>
-          <input class="input" name="nomDiaM" placeholder="20">
-        </label>
-
-        <label class="field">
-          <span class="label">ID-kod</span>
-          <input class="input" name="idCode" placeholder="A">
-        </label>
-
-        <label class="field">
-          <span class="label">Hållare</span>
-          <input class="input" name="holderId" placeholder="ER-32-70">
-        </label>
-
-        <label class="field">
-          <span class="label">Art.nr</span>
-          <input class="input" name="artNo" placeholder="1256GH86">
-        </label>
-
-        <label class="field">
-          <span class="label">Leverantör</span>
-          <input class="input" name="supplier" placeholder="Beros verktyg">
-        </label>
-
-        <label class="field field-span-2">
-          <span class="label">Kommentar</span>
-          <input class="input" name="comment" placeholder="Hänger på rosa tavlan">
-        </label>
-
-        <label class="check">
-          <input type="checkbox" name="heavyTool">
-          <span>Tungt verktyg</span>
-        </label>
-
-        <label class="check">
-          <input type="checkbox" name="archives">
-          <span>Arkiverad</span>
-        </label>
-
-        
-      </div>
-
--->
-
-      <!-- Övriga tekniska fält som inte syns i bilden (valfritt) -->
-
-      <!--
-      <details class="more">
-        <summary>Fler tekniska fält</summary>
-        <div class="mini-grid">
-          <label class="field">
-            <span class="label">Vinkel</span>
-            <input class="input" name="angle" type="number" step="0.1" placeholder="180">
-          </label>
-
-          <label class="field">
-            <span class="label">Gängoffset</span>
-            <input class="input" name="threadOffset" type="number" step="0.001" placeholder="1.337">
-          </label>
-
-          <label class="field">
-            <span class="label">Antal tänder</span>
-            <input class="input" name="numTeeth" type="number" step="1" placeholder="2">
-          </label>
-
-          <label class="field">
-            <span class="label">Ident</span>
-            <input class="input" name="ident" placeholder="Specialslipad">
-          </label>
-        </div>
-      </details>-->
-    </form>
-  </aside>
-</div>
-
-
-
-  <!-- Liten popup som show_tool använder -->
-  <div id="tool-popup" class="tool-popup" hidden></div>
 
 </body>
+
 </html>

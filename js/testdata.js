@@ -6,7 +6,7 @@ var testData = [
     toolM: "ARBORR",
     nomDiaM: "18.2", /*LT*/
     idCode: "A", /*LT*/
-    nomDia: 21.222, /*LT*/
+    nomDia: 37, /*LT*/
     actDia: 22,  /*T*/
     cutDeep: 42,  /*T*/
     length: 22,  /*LT*/
@@ -1258,6 +1258,35 @@ testData.push(
     comment: "Hänger på rosa tavlan", 
     archives: false,
   }
+);
+
+testData.push(
+{
+    id: 46,
+    toolId: 1,
+    toolType: "Arborr", /*LT*/
+    toolM: "ARBORR",
+    nomDiaM: "18.2", /*LT*/
+    idCode: "A", /*LT*/
+    nomDia: 27, /*LT*/
+    actDia: 22,  /*T*/
+    cutDeep: 42,  /*T*/
+    length: 22,  /*LT*/
+    freeLength: 31,  /*T*/
+    angle: 180,  
+    shaftDia: 10, 
+    threadOffset: 1.337, 
+    radius: 1,  
+    numTeeth: 2, 
+    holderId: "ER-32-70", /*T*/
+    heavyTool: true, /*T*/
+    ident: "Specialslipad",
+    artNo: "1256GH86", /*T*/
+    supplier: "Beros verktyg", /*T*/
+    comment: "Hänger på rosa tavlan", /*T*/
+    archives: false,
+  }
+
 );
 
 /*renderTable(testData);*/

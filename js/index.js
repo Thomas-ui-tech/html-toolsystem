@@ -21,10 +21,12 @@ var selectedId = null; // id på vald post
 var draftTool = null;    // NY post (utkast), ej sparad
 
 // Sortering
+
 var sortState = {
-  key: null,
-  dir: 1 // 1 = asc, -1 = desc
+  col: null,   // referens till kolumn-objektet
+  dir: 1       // 1 = asc, -1 = desc
 };
+
 
 // Filterregler kopplade till knappar (id -> predicate)
 var filterById = {
@@ -44,7 +46,7 @@ var filterById = {
 
 
 /* =========================================================
-   1) HELPERS
+   1) HELPERS  *********************************************
    ========================================================= */
 
 function getValue(col, row) {
@@ -53,14 +55,23 @@ function getValue(col, row) {
   return (v === undefined || v === null) ? "" : String(v);
 }
 
+function normalize(s) {
+  return String(s || "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
 function filterData(query, data) {
-  var q = (query || "").trim().toLowerCase();
+  var q = normalize(query);
   if (!q) return data;
 
   return data.filter(function (row) {
-    return Object.values(row).some(function (v) {
-      return String(v).toLowerCase().indexOf(q) !== -1;
+    // alla fält
+    var hit = Object.values(row).some(function (v) {
+      return normalize(v).indexOf(q) !== -1;
     });
+    if (hit) return true;
+
+    // computed
+    return normalize(computeMarking(row)).indexOf(q) !== -1;
   });
 }
 
@@ -77,35 +88,38 @@ function applyExtraFilter(data) {
   return fn ? data.filter(fn) : data;
 }
 
-function sortData(data) {
-  if (!sortState.key) return data;
+function sortData(data, cols) {
+  if (!sortState.col) return data;
+
+  var col = sortState.col;
+  var dir = sortState.dir;
+
+  function getSortVal(row) {
+    if (typeof col.value === "function") return col.value(row);
+    return row[col.key];
+  }
 
   return data.slice().sort(function (a, b) {
-    var va = a[sortState.key];
-    var vb = b[sortState.key];
+    var va = getSortVal(a);
+    var vb = getSortVal(b);
 
-    // null/undefined sist
     if (va == null && vb == null) return 0;
-    if (va == null) return 1 * sortState.dir;
-    if (vb == null) return -1 * sortState.dir;
+    if (va == null) return 1 * dir;
+    if (vb == null) return -1 * dir;
 
-    // nummer
     var na = Number(va), nb = Number(vb);
     var aNum = !isNaN(na) && String(va).trim() !== "";
     var bNum = !isNaN(nb) && String(vb).trim() !== "";
-    if (aNum && bNum) return (na - nb) * sortState.dir;
+    if (aNum && bNum) return (na - nb) * dir;
 
-    // text (svensk sort, numeric)
-    return String(va).localeCompare(String(vb), "sv", {
-      numeric: true,
-      sensitivity: "base"
-    }) * sortState.dir;
+    return String(va).localeCompare(String(vb), "sv", { numeric: true, sensitivity: "base" }) * dir;
   });
 }
 
 function setMode(newMode) {
   mode = newMode; // "normal" eller "archive"
   renderApp();
+  markCleanNow();
 }
 
 function toNumberOrNull(v) {
@@ -210,11 +224,37 @@ function getNextId(data) {
   return maxId + 1;
 }
 
+// Funktion för att dölja utifrån ToolId
+
+var fieldVisibilityRules = {
+  radiusField: {
+    hideForToolIds: [1, 6]
+  },
+  actDiaField: {
+    hideForToolIds: [12]
+  }
+};
+
+function updateOverlayVisibility(toolId) {
+  var id = Number(toolId);
+
+  Object.keys(fieldVisibilityRules).forEach(function (fieldId) {
+    var field = document.getElementById(fieldId);
+    if (!field) return;
+
+    var rule = fieldVisibilityRules[fieldId];
+    var hide = rule.hideForToolIds.includes(id);
+
+    field.classList.toggle("is-hidden", hide);
+  });
+}
+
 function saveFromForm() {
   var form = document.getElementById("toolForm");
   if (!form) return false;
 
   var patch = readFormToObject(form);
+  
 
   // 1) SPARA UTKAST (NY POST)
   if (draftTool) {
@@ -233,6 +273,7 @@ function saveFromForm() {
     fillFormFromRow(newRow);
     setFormIdDisplay(newId);
     updateToolImage(row.toolId);
+    markCleanNow();
     return true;
   }
 
@@ -249,6 +290,7 @@ function saveFromForm() {
   testData[idx] = Object.assign({}, testData[idx], patch);
 
   renderApp();
+  markCleanNow();
   return true;
 }
 
@@ -260,9 +302,11 @@ function startNewDraft() {
   clearForm();
   fillFormFromRow(draftTool);
   setFormIdDisplay("new"); 
+  markCleanNow();
   // valfritt: visa popup/status
   // showPopup("Nytt utkast (ej sparat)");
   updateToolImage(null); // ingen bild för nytt
+  updateOverlayVisibility(null);
 }
 
 function getSelectedRow() {
@@ -270,24 +314,65 @@ function getSelectedRow() {
   return testData.find(function (r) { return r.id === selectedId; });
 }
 
+
 function updateToolImage(toolId) {
   var img = document.getElementById("toolDrawing");
   if (!img) return;
 
   if (!toolId) {
     img.src = "./img/tools/placeholder.png";
+    updateOverlayVisibility(null);
+
     return;
   }
 
   img.src = "./img/tools/" + toolId + ".png";
-
-  // fallback om bilden saknas
   img.onerror = function () {
-    img.onerror = null; // undvik loop
+    img.onerror = null;
     img.src = "./img/tools/placeholder.png";
   };
+updateOverlayVisibility(toolId);
 }
 
+
+var isDirty = false;
+var formSnapshot = "";   // senaste “sparade”/”laddade” snapshot
+
+function setDirty(flag) {
+  isDirty = !!flag;
+  var badge = document.getElementById("dirtyBadge");
+  if (badge) badge.hidden = !isDirty;
+}
+
+function takeFormSnapshot() {
+  var form = document.getElementById("toolForm");
+  if (!form) return "";
+
+  // snapshot av alla name-fält + checkbox
+  var parts = [];
+  var els = form.querySelectorAll("input[name], textarea[name], select[name]");
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    if (el.type === "checkbox") parts.push(el.name + "=" + (el.checked ? "1" : "0"));
+    else parts.push(el.name + "=" + (el.value || ""));
+  }
+  return parts.join("&");
+}
+
+function markCleanNow() {
+  formSnapshot = takeFormSnapshot();
+  setDirty(false);
+}
+
+function checkDirtyNow() {
+  var now = takeFormSnapshot();
+  setDirty(now !== formSnapshot);
+}
+
+function confirmLoseChanges() {
+  if (!isDirty) return true;
+  return confirm("Du har osparade ändringar. Vill du fortsätta utan att spara?");
+}
 
 
 /* =========================================================
@@ -299,13 +384,15 @@ var columnsCompact = [
   { key: "id", label: "Nr" },
   { key: "toolType", label: "Typ" },
   { key: "nomDia", label: "Nom. Ø" },
+
   {
     label: "Märkning",
-    // OBS: saknar key => sortering på denna rubrik blir "ingen nyckel"
+    sortable: true,
     value: function (row) {
       return computeMarking(row);
     }
   },
+
   { key: "length", label: "Utstick" },
   { key: "holderId", label: "Hållare" },
 ];
@@ -340,39 +427,39 @@ function renderGrid(data, cols) {
   wrap.innerHTML = "";
   if (!data.length || !cols.length) return;
 
+ 
   // Header
-  var header = document.createElement("div");
-  header.className = "grid-row grid-header";
+var header = document.createElement("div");
+header.className = "grid-row grid-header";
 
-  cols.forEach(function (col) {
-    var cell = document.createElement("div");
-    cell.className = "grid-cell grid-header-cell";
+cols.forEach(function (col) {
+  var cell = document.createElement("div");
+  cell.className = "grid-cell grid-header-cell";
+  cell.style.cursor = "pointer";
 
-    // Endast sorterbara kolumner (med key) får pointer + klick
-    var isSortable = !!col.key;
-    cell.style.cursor = isSortable ? "pointer" : "default";
+  // Label + pil
+  var label = col.label;
+  if (sortState.col === col) label += (sortState.dir === 1 ? " ▲" : " ▼");
+  cell.textContent = label;
 
-    var label = col.label;
-    if (isSortable && sortState.key === col.key) {
-      label += (sortState.dir === 1 ? " ▲" : " ▼");
-    }
-    cell.textContent = label;
+  cell.addEventListener("click", function () {
+    // om col inte har key och inte value, gör inget
+    if (!col.key && typeof col.value !== "function") return;
 
-    if (isSortable) {
-      cell.addEventListener("click", function () {
-        if (sortState.key === col.key) sortState.dir *= -1;
-        else { sortState.key = col.key; sortState.dir = 1; }
-        renderApp();
-      });
-    }
+    if (sortState.col === col) sortState.dir *= -1;
+    else { sortState.col = col; sortState.dir = 1; }
 
-    header.appendChild(cell);
+    renderApp();
+    markCleanNow();
   });
 
-  wrap.appendChild(header);
+  header.appendChild(cell);
+});
+
+wrap.appendChild(header);
 
 
-  // Rows
+   // Rows
 
   
   data.forEach(function (row) {
@@ -382,16 +469,17 @@ function renderGrid(data, cols) {
   // Markera vald
   if (row.id === selectedId) r.classList.add("is-selected");
 
-  // Klick -> välj + fyll formulär
+  // Klick -> välj + fyll formulär - rad-klick handlern
   r.addEventListener("click", function () {
+    if (!confirmLoseChanges()) return;
     selectedId = row.id;
     draftTool = null;
     fillFormFromRow(row);
     setFormIdDisplay(row.id);
     updateToolImage(row.toolId);
 
-
     renderApp(); // så markeringen uppdateras i listan
+   // markCleanNow();
   });
 
     cols.forEach(function (col) {
@@ -424,8 +512,10 @@ function renderApp() {
   document.body.classList.toggle("view-wide", view === "wide");
 
   // 6) render
-  var cols = (view === "compact") ? columnsCompact : columnsWide;
-  renderGrid(data, cols);
+var cols = (view === "compact") ? columnsCompact : columnsWide;
+
+data = sortData(data, cols);   // <-- sortera efter rätt kolumner
+renderGrid(data, cols);
 
 // Auto-välj första om ingen vald eller om vald inte finns i filtrerat resultat
   if (data.length) {
@@ -433,12 +523,8 @@ function renderApp() {
     if (!stillThere) {
       selectedId = data[0].id;
       fillFormFromRow(data[0]);
-      // renderGrid igen behövs inte om du inte kräver markering direkt
-      // men om du vill se markeringen direkt, kör renderApp() en gång till (inte rekommenderat).
     }
   }
-
-
 }
 
 // Uppdatera vald post
@@ -529,6 +615,7 @@ function updateSelectedRowFromForm() {
     }
 
     renderApp();
+    //markCleanNow();
     showPopup("Filter: " + (activeFilter || "Alla"));
   };
 
@@ -597,6 +684,17 @@ function updateSelectedRowFromForm() {
 
 document.addEventListener("DOMContentLoaded", function () {
 
+var form = document.getElementById("toolForm");
+  if (form) {
+    form.addEventListener("input", function () {
+      checkDirtyNow();
+    });
+    form.addEventListener("change", function () {
+      checkDirtyNow();
+    });
+  }
+
+
   var saveBtn = document.getElementById("btnSave");
   if (saveBtn) {
     saveBtn.addEventListener("click", function (e) {
@@ -606,14 +704,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-
-  var newBtn = document.getElementById("btnNew"); 
+  var newBtn = document.getElementById("btnNew");
   if (newBtn) {
     newBtn.addEventListener("click", function () {
+      if (!confirmLoseChanges()) return;
       startNewDraft();
+      setFormIdDisplay("new");
+     // markCleanNow();
     });
   }
 
+ 
 ["toolM", "nomDiaM", "idCode"].forEach(function (name) {
   var input = document.querySelector('[name="' + name + '"]');
   if (!input) return;
@@ -640,6 +741,7 @@ var form = document.getElementById("toolForm");
       }
 
       renderApp(); // uppdatera listan med nya data
+      markCleanNow();
     });
   }
 
@@ -650,6 +752,7 @@ var form = document.getElementById("toolForm");
     searchInput.addEventListener("input", function () {
       currentQuery = searchInput.value;
       renderApp();
+      markCleanNow();
     });
   }
 
@@ -658,6 +761,7 @@ var form = document.getElementById("toolForm");
       view = (view === "compact") ? "wide" : "compact";
       toggleBtn.textContent = (view === "compact") ? "Kompakt" : "Bred";
       renderApp();
+      markCleanNow();
     });
 
     // Starttext
@@ -674,6 +778,7 @@ var form = document.getElementById("toolForm");
   });
 
   renderApp();
+  markCleanNow();
 });
 
 /* Hantering formulär */
@@ -695,5 +800,6 @@ function fillFormFromRow(row) {
     }
   });
   updateMarkingDisplay(row);
+  markCleanNow();
 }
 
