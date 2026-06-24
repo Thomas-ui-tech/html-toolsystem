@@ -450,10 +450,11 @@ body.view-wide #resultGrid .grid-row {
 
 .drawing-img{
   display: block;
-  width: 350px;
+  width: 330px;
   height: auto;
   position: relative;
-  left: 80px;
+  left: 100px;
+  top: 10px;
   bottom: 10px;
 }
 
@@ -478,7 +479,7 @@ body.view-wide #resultGrid .grid-row {
 
 .overlay-input{
   height: 25px;
-  width: 55px;
+  width: 40px;
   border: 1px solid #555;
   border-radius: 6px;
   padding: 0 8px;

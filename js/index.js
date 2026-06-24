@@ -224,7 +224,7 @@ function getNextId(data) {
   return maxId + 1;
 }
 
-// Funktion för att dölja utifrån ToolId
+// Funktion för att dölja inmatningsfält utifrån ToolId
 
 var fieldVisibilityRules = {
   radiusField: {
@@ -232,6 +232,9 @@ var fieldVisibilityRules = {
   },
   actDiaField: {
     hideForToolIds: [12]
+  },
+  extraField: {
+    hideForToolIds: [1, 3, 4, 5, 6, 8, 9, 10, 11, 12, 21]
   }
 };
 
