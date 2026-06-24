@@ -1,0 +1,541 @@
+:root {
+--base-color:rgb(246, 255, 248);
+--button-color:rgb(164, 195, 178);
+--button-hover:rgb(193, 215, 203);
+--button-active:rgb(180, 207, 192);
+--border-color:#888;
+--input-color:#fff;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#body {
+  overflow: hidden;
+  background-color: var(--b-color);
+  max-width: 1400px;
+}
+
+#toolbar-row {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+#toolbar-row table {
+  border-collapse: collapse;
+  margin-top: 4px;
+}
+
+/* Bildknappar */
+.tool-cell {
+  text-align: center;     
+  vertical-align: middle; 
+  padding: 1px;
+}
+
+.tool-cell img {
+  height: 38px;
+  cursor: pointer;
+  background-color: var(--button-color);
+  border-radius: 6px;
+}
+
+td.tool-hover img {
+  background-color: var(--button-hover);
+}
+
+td.tool-active img {
+  transform: translateY(1px);
+  background-color: var(--button-active);
+}
+
+/* Textknappar längst åt höger */
+#text-toolbar {
+  margin-left: 642px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Textknappar */
+.tool-btn {
+  height: 32px;
+  min-width: 40px;
+  padding: 0 10px;
+  border-radius: 8px;
+  font: 14px Arial, sans-serif;
+  border: 1px solid var(--border-color);
+  background-color: var(--button-color);
+  cursor: pointer;
+}
+
+.tool-btn:hover { 
+  background: var(--button-hover); 
+}
+
+.tool-btn:active { 
+  background: var(--button-active); 
+  transform: translateY(1px); 
+}
+
+/* Ikon-knapp */
+.tool-icon-btn {
+  min-width: 32px;
+  width: 32px;
+  padding: 0;
+}
+
+/* setting-iconen */
+.tool-icon-btn img {
+  width: 18px;
+  height: 18px;
+  pointer-events: none; 
+}
+
+/* Rad under bildknapparna */
+.under-toolbar {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%; 
+  max-width: 480px;
+  margin-bottom: 10px;
+}
+
+/* Sökruta */
+.search-input {
+  width: 400px;
+  height: 32px;
+  padding: 0 10px;
+  font: 14px Arial, sans-serif;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--input-color);
+}
+
+/* Toggle-knappen håller sin storlek */
+.view-toggle {
+  min-width: 78px;
+  height: 32px;
+}
+
+/* ====== VYVÄXLING: visa bara en vy i taget ====== */
+
+#resultArea {
+  max-height: calc(100vh - 140px);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;                  /* både x och y */
+  position: relative;              /* bra för sticky */
+  max-width: 100%;
+}
+
+/* visaresultat */
+
+#resultGrid {
+  /*
+  position: sticky;
+  top: 0;
+  z-index: 5;*/
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  width: max-content;
+  max-width: 100%;
+  position: relative;
+}
+
+/* rad (header + data) */
+.grid-row {
+  display: grid;
+}
+
+/* cell */
+.grid-cell {
+  padding: 6px 8px;
+  border-right: 1px solid var(--border-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid-cell:last-child { border-right: none; }
+
+/* header */
+
+.grid-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--button-active);
+  font-weight: bold;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.grid-header .grid-cell {
+  background: var(--button-active);
+}
+
+.grid-data { position: static; }
+
+/* zebra + hover */
+.grid-data:nth-child(even) { background: rgba(0,0,0,0.03); }
+
+.grid-data:hover { background: var(--button-hover); cursor: pointer; }
+
+/* Kolumnlayout per vy (viktigt!) */
+body.view-compact #resultGrid .grid-row {
+  grid-template-columns: 55px 80px 75px 130px 65px 90px; /* 6 kolumner */
+}
+
+body.view-wide #resultGrid .grid-row {
+  grid-template-columns: 55px 80px 75px 130px 65px 90px 130px 120px 150px; /* 9 kolumner  */
+}
+
+.grid-header-cell {
+  user-select: none;
+}
+
+.grid-header-cell:hover {
+  background: var(--button-hover);
+}
+
+.dirty-badge {
+  margin-left: 8px;
+  padding: 10px;
+  border-radius: 999px;
+  border: 1px solid #c99;
+  background: #fff0f0;
+  font: 14px Arial, sans-serif;
+  padding: 0 10px;
+  color: #a33;
+}
+
+
+/* Layout: lista vänster, formulär höger */
+
+#appLayout {
+  height: 100vh;         
+  display: grid;
+  grid-template-columns: max-content 460px;
+  gap: 12px;
+}
+
+
+
+
+#leftPane { 
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+#rightPane {   /* Storlek formulär */
+  margin-top: 1px;
+  width: 795px;  
+  min-width: 0;
+  height: 750px;
+}
+
+/* Panel Formulär (höger) */
+
+.panel{
+  height: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--input-color);
+  padding: 12px;
+  overflow: auto;
+}
+
+.panel-head{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.panel-head-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.form-id {
+  font: 20px sans-serif;
+  font-weight: bold;
+  color: #555;
+}
+
+.panel-title{
+  margin: 0;
+  font: 18px Arial, sans-serif;
+}
+
+.panel-actions{ display: flex; gap: 8px;}
+
+.btn{
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font: 14px Arial, sans-serif;
+  cursor: pointer;
+}
+
+.btn-primary{ background: var(--button-color); }
+.btn-primary:hover{ background: var(--button-hover); }
+.btn-secondary{ background: #f3f3f3; }
+.btn-secondary:hover{ background: #e9e9e9; }
+
+/* Form wrapper */
+.tool-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Header */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* TVÅ KOLUMNER */
+.form-layout {
+  display: grid;
+  grid-template-columns: 1fr 382px; /* inputs | bild */
+  gap: 16px;
+  align-items: start;
+}
+
+/* VÄNSTER: inputs */
+
+.tool_img {
+  width: 216px;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  border: 1px solid #888;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.field2 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: px;
+}
+
+.field label {
+  font: 12px Arial, sans-serif;
+}
+
+.field input {
+  height: 30px;
+  width: 200px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #888;
+}
+
+/*Checkboxer */
+
+.field.checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* HÖGER: bild */
+.form-image {
+  border: 10px solid #bbb;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
+}
+
+.form-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.label{ 
+  font: 12px Arial, sans-serif; 
+  color: #333; 
+}
+
+.input{
+  height: 32px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 10px;
+  font: 14px Arial, sans-serif;
+  background: var(--input-color);
+}
+
+.field-coment{ 
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: -120px;
+}
+
+.input-coment{
+  height: 140px;
+  width: 480px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0 10px;
+  font: 14px Arial, sans-serif;
+  background: var(--input-color);
+}
+
+.check{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 14px Arial, sans-serif;
+}
+
+.computed-field {
+  height: 30px;
+  width: 200px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background: #f4f4f4;
+  font: 14px Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+/* Ritning + overlay */
+
+.drawing-canvas{
+  position: relative;
+  border: 1px solid #c0c0c0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--input-color);
+  width: 500px;
+  height: 450px;
+  right: 120px;
+  margin-bottom: 6px;
+}
+
+.drawing-img{
+  display: block;
+  width: 330px;
+  height: auto;
+  position: relative;
+  left: 100px;
+  top: 10px;
+  bottom: 10px;
+}
+
+/* Overlay-field placeras med procent (skalar med bilden) */
+.overlay{
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+}
+
+.overlay-tag{
+  font: 14px Arial, sans-serif;
+  background: rgba(255,255,255,0.85);
+  border-radius: 6px;
+  padding: 2px 6px;
+  align-self: flex-start;
+}
+
+.overlay-input{
+  height: 25px;
+  width: 40px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 0 8px;
+  font: 13px Arial, sans-serif;
+  background: rgba(255,255,255,0.92);
+}
+
+.more summary{
+  cursor: pointer;
+  font: 14px Arial, sans-serif;
+  margin: 10px 0;
+}
+
+.form-fields-right {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(1fr, 1fr));
+  gap: 10px 12px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  margin-left: -120px;
+
+}
+
+.field-span-2 {
+  grid-column: span 2;
+}
+
+/* textarea-stil */
+.textarea {
+  height: auto;
+  padding: 8px 10px;
+  resize: vertical;
+  min-height: 90px;
+}
+
+/* checkboxar bredvid varandra under kommentaren */
+.check-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+
+/* Mobil */
+@media (max-width: 900px) {
+  .form-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .form-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+
